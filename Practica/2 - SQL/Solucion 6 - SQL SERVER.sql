@@ -2,7 +2,6 @@
 --EJ 1--
 -----------------------------------
 
-/*
 CREATE PROC obtenerPrecio
 	(
 	@prmTitle_id VARCHAR(40)
@@ -12,14 +11,13 @@ CREATE PROC obtenerPrecio
 			FROM titles
 			WHERE title_id = @prmTitle_id
 		RETURN;
-*/
 
---EXECUTE obtenerPrecio @prmTitle_id = 'PS1372';
+EXECUTE obtenerPrecio @prmTitle_id = 'PS1372';
 
 -----------------------------------
 --EJ 2
 -----------------------------------
-/*
+
 CREATE PROC obtenerFechaVenta
 	(
 	@prmStor_id VARCHAR(4),
@@ -31,29 +29,22 @@ CREATE PROC obtenerFechaVenta
 			WHERE stor_id = @prmStor_id
 				AND ord_num = @prmOrd_num
 		RETURN;
-*/
 
-/*
 EXECUTE obtenerFechaVenta
 	@prmStor_id = 7067,
 	@prmOrd_num = P2121;
-*/
 
 -----------------------------------
 --EJ 3--
 -----------------------------------
 
---USE pubs;
-/*
 INSERT INTO productos
 	(CodProd, descr, precUnit, stock)
 	VALUES(10, 'Articulo 1', 50, 20);
 INSERT INTO productos
 	(CodProd, descr, precUnit, stock)
 	VALUES(20, 'Articulo 2', 70, 40);
-*/
 
-/*
 CREATE PROC insertarDetalle
 	(
 	@prmCodDetalle	INTEGER,
@@ -68,9 +59,7 @@ CREATE PROC insertarDetalle
 			(CodDetalle, numPed, codProd, cant, precioTot)
 			VALUES (@prmCodDetalle,@prmNumPed,@prmCodProd,@prmCant,@prmCant * @precio);
 		RETURN;
-*/
 
-/*
 CREATE PROC buscarPrecio
 	(
 	@prmCodProd	INTEGER,
@@ -81,16 +70,14 @@ CREATE PROC buscarPrecio
 							FROM pubs.dbo.productos
 							WHERE codProd = @prmCodProd);
 		RETURN;
-*/
 
---EXECUTE pubs.dbo.insertarDetalle 1, 1, 10, 7;
+EXECUTE pubs.dbo.insertarDetalle 1, 1, 10, 7;
 
 
 -----------------------------------
 --EJ 4--
 -----------------------------------
 
-/*
 CREATE PROC insertarDetalle
 	(
 	@prmCodDetalle	INTEGER,
@@ -124,7 +111,6 @@ CREATE PROC insertarDetalle
 			(CodDetalle, numPed, codProd, cant, precioTot)
 			VALUES (@prmCodDetalle,@prmNumPed,@prmCodProd,@prmCant,@prmCant * @precio);
 		RETURN;
-*/
 
 -----------------------------------
 --EJ 5--

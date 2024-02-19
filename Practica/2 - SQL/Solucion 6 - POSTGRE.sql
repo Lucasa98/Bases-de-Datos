@@ -2,7 +2,6 @@
 --EJ 1--
 ----------------------------------------
 
-/*
 CREATE OR REPLACE FUNCTION obtenerPrecio
 	(
 	IN prmTitle_id VARCHAR(40)
@@ -21,15 +20,13 @@ CREATE OR REPLACE FUNCTION obtenerPrecio
 	END
 	$$
 	LANGUAGE plpgsql
-*/
 
---SELECT obtenerPrecio (prmTitle_id := 'PS1372');
+SELECT obtenerPrecio (prmTitle_id := 'PS1372');
 
 ----------------------------------------
 --EJ 2--
 ----------------------------------------
 
-/*
 CREATE OR REPLACE FUNCTION obtenerFechaVenta
 	(
 	IN prmStor_id CHAR(4),
@@ -49,25 +46,20 @@ CREATE OR REPLACE FUNCTION obtenerFechaVenta
 	END
 	$$
 	LANGUAGE plpgsql
-*/
 
-/*
 SELECT obtenerFechaVenta (	prmStor_id := '7067',
 						 	prmOrd_num := 'P2121');
-*/
+
 
 ----------------------------------------
 --EJ 3--
 ----------------------------------------
 
-/*
 INSERT INTO productos (codProd, descr, precUnit, stock)
 	VALUES (10, 'Articulo 1', 50, 20);
 INSERT INTO productos (codProd, descr, precUnit, stock)
 	VALUES (20, 'Articulo 2', 70, 40);
-*/
 
-/*
 CREATE OR REPLACE FUNCTION buscarPrecio
 	(
 	IN prmCodProd INTEGER,
@@ -85,9 +77,7 @@ CREATE OR REPLACE FUNCTION buscarPrecio
 	END
 	$$
 	LANGUAGE plpgsql;
-*/
 
-/*
 CREATE OR REPLACE FUNCTION insertarDetalle
 	(
 	IN prmCodDetalle	INTEGER,
@@ -109,9 +99,7 @@ CREATE OR REPLACE FUNCTION insertarDetalle
 	END
 	$$
 	LANGUAGE plpgsql;
-*/
 
-/*
 SELECT insertarDetalle (
 	prmCodDetalle := 0,
 	prmNumPed := 1,
@@ -123,13 +111,11 @@ SELECT insertarDetalle (
 	prmNumPed := 2,
 	prmCodProd := 20,
 	prmCant := 7);
-*/
 
 ----------------------------------------
 --EJ 4--
 ----------------------------------------
 
-/*
 CREATE OR REPLACE FUNCTION insertarDetalle
 	(
 	IN prmCodDetalle	INTEGER,
@@ -166,7 +152,6 @@ CREATE OR REPLACE FUNCTION insertarDetalle
 	END
 	$$
 	LANGUAGE plpgsql;
-*/
 
 ----------------------------------------
 --EJ 5--
