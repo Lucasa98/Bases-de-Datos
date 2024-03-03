@@ -1,3 +1,3 @@
 Lenguajes
-- Transact-SQL
+- Transact-SQL (SQL Server)
 - PL/pgSQL (Postgre)
