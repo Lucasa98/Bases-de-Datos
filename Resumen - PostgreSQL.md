@@ -130,10 +130,59 @@ ORDER BY
 	titles DESC;
 ```
 
+### DISTINCT
+
+Elimina duplicados
+```SQL
+SELECT
+	DISTINCT type
+FROM
+	titles;
+```
+
+### Operadores de agregación
+
+Devuelve _atributos de grupo_
+```AVG```: promedio
+```MIN/MAX```: valor minimo o maximo
+```COUNT```: numero de filas
+```SUM```: sumatoria de valores
+
+### GROUP BY
+
+Cada fila es una agrupación de todas las filas con mismo ```[nombreColumna]```
+En la salida del ```SELECT``` solo puede haber atributos de tuplas presentes en la clausula ```GROUP BY``` o _atributos de grupo_.
+```SQL
+SELECT
+	type,
+	AVG(price)
+FROM
+	titles
+GROUP BY
+	type;
+```
+
+### HAVING
+
+Establece _condiciones de grupo_ con (obviamente) atributos de grupo
+```SQL
+SELECT
+	type,
+	AVG(price)
+FROM
+	titles
+WHERE
+	pub_id = '0877'
+GROUP BY
+	type
+HAVING
+	MIN(pubdate) > '1991-10-01';
+```
+
 ### Subqueries
 
-Sintaxis:
-```
+Como salida de SELECT's:
+```SQL
 SELECT
 	title,
 	(SELECT SUM(qty)
@@ -143,4 +192,50 @@ SELECT
 			sales.title_id = titles.title_id)
 		AS 'Cantidad vendida'
 	FROM titles;
+```
+
+En cláusulas FROM:
+```SQL
+SELECT
+	au_lname
+FROM
+	authors
+INNER JOIN
+	titleauthor
+	ON authors.au_id = titleauthor.au_id
+	INNER JOIN
+		(SELECT
+			titles.*
+		FROM
+			titles
+		WHERE
+			pub_id = '0736'
+		) AS titlesAlgoData
+		ON titleauthor.title_id = titlesAlgodata.title_id;
+```
+
+## CASE
+
+Una especie de operador ternario (condicion, valor por el verdadero, valor por el falso)
+
+Sintaxis:
+```SQL
+SELECT
+	CASE
+		WHEN [condicion] THEN [valorPorVerdadero]
+		ELSE [valorPorFalse]
+	END AS [alias]
+FROM
+	[nombreTabla];
+```
+
+Ejemplo:
+```SQL
+SELECT
+	CASE
+		WHEN type = 'business' THEN 'Negocios'
+		ELSE 'Otros'
+	END AS tipo
+FROM
+	titles;
 ```
