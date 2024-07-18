@@ -239,3 +239,222 @@ SELECT
 FROM
 	titles;
 ```
+
+## UNION
+
+Sintaxis:
+```SQL
+[query1]
+
+UNION ALL -- ALL previene la eliminación de duplicados
+
+[query2]
+```
+
+Ejemplo:
+```SQL
+SELECT
+	type, title
+FROM
+	titles
+WHERE
+	type = 'business'
+
+UNION ALL
+
+SELECT
+	type, title
+FROM
+	titles
+WHERE
+		type = 'popular_comp'
+```
+
+## Stored Procedures
+
+Sintaxis:
+```SQL
+CREATE OR REPLACE FUNCTION [nombreFuncion]
+	(
+	IN [nombreParametro1] [tipoParametro1] DEFAULT [valorPorOmision],
+	IN [nombreParametro2] [tipoParametro2] DEFAULT [valorPorOmision],
+	...
+	)
+	RETURNS [tipoRetorno]
+	AS
+	$$
+	DECLARE
+		[nombreVariableLocal1]	[tipoVariableLocal1]	:= [valorInicial1];
+		[nombreVariableLocal2]	[tipoVariableLocal2]	:= [valorInicial2];
+	BEGIN
+		[instrucciones]
+		RETURN;
+	END
+	$$
+	LANGUAGE plpgsql
+```
+
+Ejemplo:
+```SQL
+CREATE OR REPLACE FUNCTION CambiarDomicilio
+	(
+	IN prmAu_lname	VARCHAR(40),
+	IN prmAddress	VARCHAR(40)	DEFAULT 'NO ESPECIFICADO'
+	)
+	RETURNS void
+	AS
+	$$
+	DECLARE
+		apellido	VARCHAR(40)	:= 'LOPEZ';
+		domicilio	VARCHAR(40);
+	BEGIN
+		UPDATE
+			authors
+		SET
+			address = prmAddress
+		WHERE
+			au_lname LIKE prmAu_lname
+	END
+	$$
+	LANGUAGE plpgsql
+```
+
+### Llamadas a Stored Procedures
+
+Sintaxis:
+```SQL
+-- parametros por nombre
+SELECT [nombreFuncion] ([nombreParametro1] := [valorParametro1], ...)
+-- parametros por orden
+SELECT [nombreFuncion] ([valorParametro1], [valorParametro2], ...)
+```
+
+### IF-ELSE
+
+Sintaxis:
+```SQL
+IF [condicion] THEN
+	...
+ELSE
+	...
+RETURN;
+```
+
+### LOOP
+
+Sintaxis:
+```SQL
+[etiquetaLoop]	-- opcional
+LOOP
+	...
+	-- Esto se repetira hasta que se ejecute un EXIT [etiquetaLoop]
+END LOOP [etiquetaLoop];
+```
+
+### WHILE
+
+Sintaxis:
+```SQL
+[etiquetaLoop]	-- opcional
+WHILE [expresionBooleana] LOOP
+	...
+END LOOP [etiquetaLoop]
+```
+
+### FOR
+
+Sintaxis:
+```SQL
+[etiquetaLoop]	-- opcional
+FOR [nombreIterador] IN [expresion1] [expresion2] ... LOOP
+	...
+END LOOP
+```
+
+## Anchored Declarations
+
+El tipo de la variabla se asocia al tipo deun elemento de la DB
+
+Sintaxis:
+```SQL
+...
+DECLARE
+	precio	titles.price%TYPE;
+	BEGIN
+		precio := (
+			SELECT
+				price
+			FROM
+				titles
+			WHERE
+				totle_id = prmTitle_id
+		);
+		RAISE NOTICE 'La publicacion % vale $%', prmTitle_id, precio;
+	END
+...
+```
+
+## Recuperar valores de single-row query
+
+Sintaxis:
+```SQL
+DECLARE
+	price1 titles.price%TYPE;
+	type1 titles.type%TYPE;
+BEGIN
+	SELECT
+		price, type INTO price1, type1	-- los valores price y type de la query se almacenan en price1 y type1
+	FROM
+		titles
+	WHERE
+		title_id = prmTitle_id;
+	RAISE NOTICE 'La publicacion % es de tipo % y vale $%', prmTitle_id, trim(both FROM type1), price1;
+END
+```
+
+## RECORD Anchoring
+
+Se asocia el tipo de la variable a una tupla completa
+
+Sintaxis:
+```SQL
+DECLARE
+	titleRec	titles%ROWTYPE;
+BEGIN
+	SELECT
+		* INTO titleRec
+	FROM
+		titles
+	WHERE
+		title_id = prmTitle_id;
+	
+	RAISE NOTICE 'La publicación % es de tipo % y vale $%', prmTitle_id, trim(both FROM titleRec.type) titleRec.price;
+	...
+END
+```
+
+### Projection
+
+Se usa una _proyeccion_ de la tupla en lugar de la tupla completa
+```SQL
+CREATE TYPE titleCT
+	AS (
+		type	char(12),
+		price	numeric
+	);
+
+	...
+	DECLARE
+		titleRec titleCT%ROWTYPE;
+	BEGIN
+		SELECT
+			type, price INTO titleRec
+		FROM
+			titles
+		WHERE
+			title_id = prmTitle_id;
+		
+		RAISE NOTICE 'La publicacion % es de tipo % y vale $%', prmTitle_id, trim(both FROM titleRec.type), titleRec.price;
+	END
+```
+
