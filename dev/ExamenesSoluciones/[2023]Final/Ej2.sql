@@ -62,4 +62,6 @@ values
 	('SN67890', 2, 2, CURRENT_DATE),
 	('SN34567', 3, 3, CURRENT_DATE);
 
--- y Ejecutar la funcion del Ej1 con el archiov `./lecturas.csv`
+-- y Ejecutar la funcion del Ej1 con el archivo `./lecturas.csv`
+
+SELECT Final20231218.LeerSensor('/var/lib/postgresql/data/lecturas.csv', 'A ver si se importa');
