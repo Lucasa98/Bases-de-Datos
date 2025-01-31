@@ -36,7 +36,7 @@ BEGIN
 END;
 $$ language plpgsql;
 
-CREATE TRIGGER tg_sales_insert
+CREATE OR REPLACE TRIGGER tg_sales_insert
 BEFORE INSERT
 ON Parcial2R2023.Sales
 FOR EACH ROW
@@ -49,11 +49,11 @@ INSERT INTO Parcial2R2023.Sales
 VALUES
     (7066, 'AA11TQTQ', CURRENT_DATE, 19, 'Net 30', 'TC7777');
 
--- Chusmear ReporteVentas
+-- Chusmear ReporteVentas, deberia aparecer (AA11TQTQ, 7066, TC7777, Unica publicacion en la venta)
 
 INSERT INTO Parcial2R2023.Sales
     (stor_id, ord_num, ord_date, qty, payterms, title_id)
 VALUES
-    (7066, 'AA11TQTQ', CURRENT_DATE, 99, 'Net 30', 'TC4203'); -- aca reemplazar CURRENT_DATE por la que tenga la anterior
+    (7066, 'AA11TQTQ', CURRENT_DATE, 99, 'Net 30', 'TC4203');
 
--- Chusmear Otra vez
+-- Chusmear otra vez, deberia aparecer (AA11TQTQ, 7066, TC4203, Mas de una publicacion en la venta)

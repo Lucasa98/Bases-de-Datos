@@ -2,8 +2,6 @@
 
 CREATE SCHEMA pubs;
 
---SET pubs;
-
 -- ##### Creacion de Tablas #####
 
 CREATE TABLE pubs.authors (
